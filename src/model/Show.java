@@ -61,4 +61,12 @@ public class Show {
     public List<Lote> getLotes() {
         return lotes;
     }
+
+    public StatusFinanceiro avaliarStatusFinanceiro() {
+        double receitaLiquida = calcularReceitaLiquida();
+        if (receitaLiquida > 0) return StatusFinanceiro.LUCRO;
+        if (receitaLiquida == 0) return StatusFinanceiro.ESTÁVEL;
+        return StatusFinanceiro.PREJUÍZO;
+    }
+
 }
