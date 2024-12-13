@@ -2,11 +2,11 @@ package model;
 
 public class Ingresso {
     private int id;
-    private String tipo;
+    private TipoIngresso tipo;
     private boolean vendido;
     private double preco;
 
-    public Ingresso(int id, String tipo, boolean vendido, double preco) {
+    public Ingresso(int id, TipoIngresso tipo, boolean vendido, double preco) {
         this.id = id;
         this.tipo = tipo;
         this.vendido = vendido;
@@ -17,7 +17,7 @@ public class Ingresso {
         return id;
     }
 
-    public String getTipo() {
+    public TipoIngresso getTipo() { // Retorna o enum
         return tipo;
     }
 
