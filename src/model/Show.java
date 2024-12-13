@@ -27,6 +27,32 @@ public class Show {
         return artista;
     }
 
+    public double getCacheArtista() {
+        return cacheArtista;
+    }
+
+    public double getDespesasInfraestrutura() {
+        return dataEspecial ? despesasInfraestrutura * 1.15 : despesasInfraestrutura;
+    }
+
+    public double calcularReceitaLiquida() {
+        double receitaTotal = lotes.stream()
+                .mapToDouble(lote -> lote.getIngressos().stream()
+                        .filter(Ingresso::isVendido)
+                        .mapToDouble(ingresso -> {
+                            double precoFinal = ingresso.getPreco();
+                            if (ingresso.getTipo() != TipoIngresso.MEIA_ENTRADA) {
+                                precoFinal *= (1 - lote.getDesconto());
+                            }
+                            return precoFinal;
+                        })
+                        .sum())
+                .sum();
+
+        double custosTotais = getCacheArtista() + getDespesasInfraestrutura(); // Uso de getCacheArtista()
+
+        return receitaTotal - custosTotais;
+    }
 
     public boolean isDataEspecial() {
         return dataEspecial;
