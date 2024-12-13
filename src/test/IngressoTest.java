@@ -15,7 +15,7 @@ class IngressoTest {
 
     @Test
     void deveMarcarIngressoComoVendido() {
-        Ingresso ingresso = new Ingresso(1, TipoIngresso.NORMAL, false, 10.0);
+        Ingresso ingresso = new Ingresso(1, TipoIngresso.VIP, 20.0);
         ingresso.marcarComoVendido();
         assertTrue(ingresso.isVendido());
     }
