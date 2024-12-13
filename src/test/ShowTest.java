@@ -22,7 +22,7 @@ class ShowTest {
                 List.of(lote)
         );
 
-        assertEquals("30/10/2024", show.getData());
+        assertEquals("03/10/2024", show.getData());
         assertEquals("Paul McCartney", show.getArtista());
         assertEquals(1, show.getLotes().size());
         assertTrue(show.isDataEspecial());
