@@ -6,11 +6,11 @@ public class Ingresso {
     private boolean vendido;
     private double preco;
 
-    public Ingresso(int id, TipoIngresso tipo, boolean vendido, double preco) {
+    public Ingresso(int id, TipoIngresso tipo, double preco) {
         this.id = id;
         this.tipo = tipo;
-        this.vendido = vendido;
         this.preco = preco;
+        this.vendido = false;
     }
 
     public int getId() {
