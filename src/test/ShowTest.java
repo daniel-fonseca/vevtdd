@@ -55,8 +55,8 @@ class ShowTest {
     @Test
     void deveAvaliarStatusFinanceiroComLucro() {
         List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(2, TipoIngresso.VIP, 200.0)
+                new Ingresso(1, TipoIngresso.NORMAL, 150.0),
+                new Ingresso(2, TipoIngresso.VIP, 300.0)
         );
         ingressos.forEach(Ingresso::marcarComoVendido);
 
@@ -102,13 +102,13 @@ class ShowTest {
         );
         ingressos.forEach(Ingresso::marcarComoVendido);
 
-        Lote lote = new Lote(1, ingressos, 0.0); // Sem desconto
+        Lote lote = new Lote(1, ingressos, 0.0);
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
-                300.0,  // Cachê
-                100.0,  // Infraestrutura
-                false,  // Não é data especial
+                300.0,
+                100.0,
+                false,
                 List.of(lote)
         );
 
