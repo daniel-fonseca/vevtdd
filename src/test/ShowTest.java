@@ -18,8 +18,6 @@ class ShowTest {
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
-                1000.0,
-                2000.0,
                 true,
                 List.of(lote)
         );
