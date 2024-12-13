@@ -49,7 +49,7 @@ public class Show {
                         .sum())
                 .sum();
 
-        double custosTotais = getCacheArtista() + getDespesasInfraestrutura(); // Uso de getCacheArtista()
+        double custosTotais = getCacheArtista() + getDespesasInfraestrutura();
 
         return receitaTotal - custosTotais;
     }
