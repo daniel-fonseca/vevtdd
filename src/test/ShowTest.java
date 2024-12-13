@@ -52,5 +52,67 @@ class ShowTest {
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
     }
 
+    @Test
+    void deveAvaliarStatusFinanceiroComLucro() {
+        List<Ingresso> ingressos = List.of(
+                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(2, TipoIngresso.VIP, 200.0)
+        );
+        ingressos.forEach(Ingresso::marcarComoVendido);
+
+        Lote lote = new Lote(1, ingressos, 0.10);
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                100.0,
+                200.0,
+                false,
+                List.of(lote)
+        );
+
+        assertEquals(StatusFinanceiro.LUCRO, show.avaliarStatusFinanceiro());
+    }
+
+    @Test
+    void deveAvaliarStatusFinanceiroEstavel() {
+        List<Ingresso> ingressos = List.of(
+                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(2, TipoIngresso.VIP, 200.0)
+        );
+        ingressos.forEach(Ingresso::marcarComoVendido);
+
+        Lote lote = new Lote(1, ingressos, 0.0);
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                300.0,
+                0.0,
+                false,
+                List.of(lote)
+        );
+
+        assertEquals(StatusFinanceiro.ESTÁVEL, show.avaliarStatusFinanceiro());
+    }
+
+    @Test
+    void deveAvaliarStatusFinanceiroPrejuizo() {
+        List<Ingresso> ingressos = List.of(
+                new Ingresso(1, TipoIngresso.NORMAL, 50.0),
+                new Ingresso(2, TipoIngresso.VIP, 100.0)
+        );
+        ingressos.forEach(Ingresso::marcarComoVendido);
+
+        Lote lote = new Lote(1, ingressos, 0.0); // Sem desconto
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                300.0,  // Cachê
+                100.0,  // Infraestrutura
+                false,  // Não é data especial
+                List.of(lote)
+        );
+
+        assertEquals(StatusFinanceiro.PREJUÍZO, show.avaliarStatusFinanceiro());
+    }
 
 }
