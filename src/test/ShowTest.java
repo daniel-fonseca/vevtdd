@@ -31,25 +31,26 @@ class ShowTest {
     }
 
     @Test
-    void deveCalcularReceitaLiquida() {
+    void deveCalcularReceitaLiquidaComLucro() {
         List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
-                new Ingresso(2, TipoIngresso.VIP, 20.0)
+                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(2, TipoIngresso.VIP, 200.0)
         );
-        ingressos.get(1).marcarComoVendido();
+        ingressos.forEach(Ingresso::marcarComoVendido);
 
         Lote lote = new Lote(1, ingressos, 0.10);
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
-                1000.0,
-                2000.0,
-                true,
+                100.0,
+                200.0,
+                false,
                 List.of(lote)
         );
 
-        double receitaEsperada = 20.0 * 0.90;
-        assertEquals(receitaEsperada, show.calcularReceitaLiquida());
+        double receitaEsperada = (100.0 * 0.90) + (200.0 * 0.90);
+        assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
     }
+
 
 }
