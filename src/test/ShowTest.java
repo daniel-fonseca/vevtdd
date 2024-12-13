@@ -27,4 +27,24 @@ class ShowTest {
         assertEquals(1, show.getLotes().size());
         assertTrue(show.isDataEspecial());
     }
+
+    @Test
+    void deveCalcularReceitaLiquida() {
+        List<Ingresso> ingressos = List.of(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0)
+        );
+        ingressos.get(1).marcarComoVendido();
+
+        Lote lote = new Lote(1, ingressos, 0.10);
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                true,
+                List.of(lote)
+        );
+
+        double receitaEsperada = 20.0 * 0.90;
+        assertEquals(receitaEsperada, show.calcularReceitaLiquida());
+    }
 }
