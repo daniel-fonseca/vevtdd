@@ -62,4 +62,37 @@ class LoteTest {
         assertTrue(exception.getMessage().contains("Ingressos MEIA_ENTRADA devem ser 10%"));
     }
 
+    @Test
+    void deveVenderIngressoDisponivel() {
+        Lote lote = new Lote(1, 0.10);
+        lote.criarIngresso(TipoIngresso.NORMAL, 100.0);
+        lote.criarIngresso(TipoIngresso.VIP, 200.0);
+
+        double precoVendido = lote.venderIngresso();
+
+        assertEquals(90.0, precoVendido);
+        assertTrue(lote.getIngressos().get(1).isVendido());
+    }
+
+    @Test
+    void deveAtualizarReceitaAoVenderIngresso() {
+        Lote lote = new Lote(1, 0.10);
+        lote.criarIngresso(TipoIngresso.NORMAL, 100.0);
+        lote.criarIngresso(TipoIngresso.VIP, 200.0);
+
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                100.0,
+                200.0,
+                false,
+                List.of(lote)
+        );
+
+        double precoVendido = show.venderIngresso();
+
+        assertEquals(90.0, precoVendido);
+        assertEquals(90.0, show.getReceita());
+    }
+
 }
