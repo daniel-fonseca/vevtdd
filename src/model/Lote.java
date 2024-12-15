@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Lote {
@@ -8,24 +9,17 @@ public class Lote {
     private Map<Integer, Ingresso> ingressos;
     private double desconto;
 
-    public Lote(int id, double desconto) {
+    public Lote(int id, double desconto, List<Ingresso> ingressos) {
         if (desconto < 0 || desconto > 0.25) {
             throw new IllegalArgumentException("Desconto deve estar entre 0% e 25%");
         }
 
         this.id = id;
-        this.ingressos = new HashMap<>();
         this.desconto = desconto;
-    }
+        this.ingressos = new HashMap<>();
 
-    public Ingresso criarIngresso(TipoIngresso tipo, double preco) {
-        validarPercentuais(tipo);
-
-        int novoId = ingressos.size() + 1;
-        Ingresso ingresso = new Ingresso(novoId, tipo, preco);
-        ingressos.put(novoId, ingresso);
-
-        return ingresso;
+        ingressos.forEach(ingresso -> this.ingressos.put(ingresso.getId(), ingresso));
+        validarPercentuais();
     }
 
     public double venderIngresso() {
@@ -56,16 +50,10 @@ public class Lote {
         return desconto;
     }
 
-    private void validarPercentuais(TipoIngresso novoTipo) {
-        long totalIngressos = ingressos.size() + 1;
+    private void validarPercentuais() {
+        long totalIngressos = ingressos.size();
         long totalVIP = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.VIP).count();
         long totalMeiaEntrada = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.MEIA_ENTRADA).count();
-
-        if (novoTipo == TipoIngresso.VIP) {
-            totalVIP++;
-        } else if (novoTipo == TipoIngresso.MEIA_ENTRADA) {
-            totalMeiaEntrada++;
-        }
 
         double percentualVIP = (double) totalVIP / totalIngressos;
         double percentualMeiaEntrada = (double) totalMeiaEntrada / totalIngressos;
@@ -78,5 +66,4 @@ public class Lote {
             throw new IllegalArgumentException("Ingressos MEIA_ENTRADA devem ser exatamente 10% do total.");
         }
     }
-
 }
