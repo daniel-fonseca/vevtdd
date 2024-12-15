@@ -10,11 +10,10 @@ class ShowTest {
 
     @Test
     void deveCriarShowComLotes() {
-        List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
-                new Ingresso(2, TipoIngresso.VIP, 20.0)
-        );
-        Lote lote = new Lote(1, ingressos, 0.10);
+        Lote lote = new Lote(1, 0.10);
+        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
+        lote.criarIngresso(TipoIngresso.VIP, 20.0);
+
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
@@ -32,13 +31,10 @@ class ShowTest {
 
     @Test
     void deveCalcularReceitaLiquidaComLucro() {
-        List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(2, TipoIngresso.VIP, 200.0)
-        );
-        ingressos.forEach(Ingresso::marcarComoVendido);
+        Lote lote = new Lote(1, 0.10);
+        lote.criarIngresso(TipoIngresso.NORMAL, 100.0).marcarComoVendido();
+        lote.criarIngresso(TipoIngresso.VIP, 200.0).marcarComoVendido();
 
-        Lote lote = new Lote(1, ingressos, 0.10);
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
@@ -52,15 +48,13 @@ class ShowTest {
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
     }
 
+
     @Test
     void deveAvaliarStatusFinanceiroComLucro() {
-        List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 150.0),
-                new Ingresso(2, TipoIngresso.VIP, 300.0)
-        );
-        ingressos.forEach(Ingresso::marcarComoVendido);
+        Lote lote = new Lote(1, 0.10);
+        lote.criarIngresso(TipoIngresso.NORMAL, 150.0).marcarComoVendido();
+        lote.criarIngresso(TipoIngresso.VIP, 300.0).marcarComoVendido();
 
-        Lote lote = new Lote(1, ingressos, 0.10);
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
@@ -75,13 +69,10 @@ class ShowTest {
 
     @Test
     void deveAvaliarStatusFinanceiroEstavel() {
-        List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(2, TipoIngresso.VIP, 200.0)
-        );
-        ingressos.forEach(Ingresso::marcarComoVendido);
+        Lote lote = new Lote(1, 0.0);
+        lote.criarIngresso(TipoIngresso.NORMAL, 100.0).marcarComoVendido();
+        lote.criarIngresso(TipoIngresso.VIP, 200.0).marcarComoVendido();
 
-        Lote lote = new Lote(1, ingressos, 0.0);
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
@@ -96,13 +87,10 @@ class ShowTest {
 
     @Test
     void deveAvaliarStatusFinanceiroPrejuizo() {
-        List<Ingresso> ingressos = List.of(
-                new Ingresso(1, TipoIngresso.NORMAL, 50.0),
-                new Ingresso(2, TipoIngresso.VIP, 100.0)
-        );
-        ingressos.forEach(Ingresso::marcarComoVendido);
+        Lote lote = new Lote(1, 0.0); // Sem desconto
+        lote.criarIngresso(TipoIngresso.NORMAL, 50.0).marcarComoVendido();
+        lote.criarIngresso(TipoIngresso.VIP, 100.0).marcarComoVendido();
 
-        Lote lote = new Lote(1, ingressos, 0.0);
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
