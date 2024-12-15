@@ -4,15 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import model.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 class ShowTest {
 
     @Test
     void deveCriarShowComLotes() {
-        Lote lote = new Lote(1, 0.10);
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0)
+        );
+        Lote lote = new Lote(1, 0.10, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
@@ -31,9 +34,14 @@ class ShowTest {
 
     @Test
     void deveCalcularReceitaLiquidaComLucro() {
-        Lote lote = new Lote(1, 0.10);
-        lote.criarIngresso(TipoIngresso.NORMAL, 100.0).marcarComoVendido();
-        lote.criarIngresso(TipoIngresso.VIP, 200.0).marcarComoVendido();
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(2, TipoIngresso.VIP, 200.0)
+        );
+        ingressos.get(0).marcarComoVendido();
+        ingressos.get(1).marcarComoVendido();
+
+        Lote lote = new Lote(1, 0.10, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
@@ -48,12 +56,16 @@ class ShowTest {
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
     }
 
-
     @Test
     void deveAvaliarStatusFinanceiroComLucro() {
-        Lote lote = new Lote(1, 0.10);
-        lote.criarIngresso(TipoIngresso.NORMAL, 150.0).marcarComoVendido();
-        lote.criarIngresso(TipoIngresso.VIP, 300.0).marcarComoVendido();
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 150.0),
+                new Ingresso(2, TipoIngresso.VIP, 300.0)
+        );
+        ingressos.get(0).marcarComoVendido();
+        ingressos.get(1).marcarComoVendido();
+
+        Lote lote = new Lote(1, 0.10, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
@@ -69,9 +81,14 @@ class ShowTest {
 
     @Test
     void deveAvaliarStatusFinanceiroEstavel() {
-        Lote lote = new Lote(1, 0.0);
-        lote.criarIngresso(TipoIngresso.NORMAL, 100.0).marcarComoVendido();
-        lote.criarIngresso(TipoIngresso.VIP, 200.0).marcarComoVendido();
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(2, TipoIngresso.VIP, 200.0)
+        );
+        ingressos.get(0).marcarComoVendido();
+        ingressos.get(1).marcarComoVendido();
+
+        Lote lote = new Lote(1, 0.0, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
@@ -87,9 +104,14 @@ class ShowTest {
 
     @Test
     void deveAvaliarStatusFinanceiroPrejuizo() {
-        Lote lote = new Lote(1, 0.0); // Sem desconto
-        lote.criarIngresso(TipoIngresso.NORMAL, 50.0).marcarComoVendido();
-        lote.criarIngresso(TipoIngresso.VIP, 100.0).marcarComoVendido();
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 50.0),
+                new Ingresso(2, TipoIngresso.VIP, 100.0)
+        );
+        ingressos.get(0).marcarComoVendido();
+        ingressos.get(1).marcarComoVendido();
+
+        Lote lote = new Lote(1, 0.0, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
@@ -102,5 +124,4 @@ class ShowTest {
 
         assertEquals(StatusFinanceiro.PREJUÍZO, show.avaliarStatusFinanceiro());
     }
-
 }
