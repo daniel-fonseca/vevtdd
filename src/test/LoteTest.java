@@ -85,4 +85,12 @@ class LoteTest {
         assertEquals(90.0, precoVendido);
     }
 
+    @Test
+    void deveLancarExcecaoQuandoNaoHouverIngressosDisponiveis() {
+        Lote lote = new Lote(1, 0.10);
+
+        Exception exception = assertThrows(IllegalStateException.class, lote::venderIngresso);
+        assertTrue(exception.getMessage().contains("Não há ingressos disponíveis"));
+    }
+
 }
