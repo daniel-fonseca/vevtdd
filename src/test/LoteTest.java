@@ -60,7 +60,9 @@ class LoteTest {
     void deveVenderIngressoDisponivel() {
         List<Ingresso> ingressos = Arrays.asList(
                 new Ingresso(1, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(2, TipoIngresso.VIP, 200.0)
+                new Ingresso(2, TipoIngresso.VIP, 200.0),
+                new Ingresso(3, TipoIngresso.VIP, 200.0),
+                new Ingresso(4, TipoIngresso.MEIA_ENTRADA, 50.0)
         );
 
         Lote lote = new Lote(1, 0.10, ingressos);
@@ -75,9 +77,10 @@ class LoteTest {
     void deveLancarExcecaoQuandoNaoHouverIngressosDisponiveis() {
         List<Ingresso> ingressos = Arrays.asList();
 
-        Lote lote = new Lote(1, 0.10, ingressos);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Lote(1, 0.10, ingressos);
+        });
 
-        Exception exception = assertThrows(IllegalStateException.class, lote::venderIngresso);
-        assertTrue(exception.getMessage().contains("Não há ingressos disponíveis para venda."));
+        assertTrue(exception.getMessage().contains("Não há ingressos no lote."));
     }
 }

@@ -14,6 +14,10 @@ public class Lote {
             throw new IllegalArgumentException("Desconto deve estar entre 0% e 25%");
         }
 
+        if (ingressos.isEmpty()) {
+            throw new IllegalArgumentException("Não há ingressos no lote.");
+        }
+
         this.id = id;
         this.desconto = desconto;
         this.ingressos = new HashMap<>();
@@ -52,6 +56,11 @@ public class Lote {
 
     private void validarPercentuais() {
         long totalIngressos = ingressos.size();
+
+        if (totalIngressos == 0) {
+            throw new IllegalArgumentException("Não há ingressos no lote.");
+        }
+
         long totalVIP = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.VIP).count();
         long totalMeiaEntrada = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.MEIA_ENTRADA).count();
 
