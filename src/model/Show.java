@@ -37,7 +37,7 @@ public class Show {
 
     public double calcularReceitaLiquida() {
         double receitaTotal = lotes.stream()
-                .mapToDouble(lote -> lote.getIngressos().stream()
+                .mapToDouble(lote -> lote.getIngressos().values().stream() // Corrigido para acessar os valores do Map
                         .filter(Ingresso::isVendido)
                         .mapToDouble(ingresso -> {
                             double precoFinal = ingresso.getPreco();
@@ -68,5 +68,4 @@ public class Show {
         if (receitaLiquida == 0) return StatusFinanceiro.ESTÁVEL;
         return StatusFinanceiro.PREJUÍZO;
     }
-
 }
