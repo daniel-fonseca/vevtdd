@@ -2,10 +2,8 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import model.Lote;
-import model.Ingresso;
 import model.TipoIngresso;
 import org.junit.jupiter.api.Test;
-import java.util.List;
 
 class LoteTest {
 
