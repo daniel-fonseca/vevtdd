@@ -75,7 +75,8 @@ public class Lote {
         }
 
         if (Math.abs(percentualMeiaEntrada - 0.1) > 0.0001) {
-            throw new IllegalArgumentException("Ingressos MEIA_ENTRADA devem ser 10% do total.");
+            throw new IllegalArgumentException("Ingressos MEIA_ENTRADA devem ser exatamente 10% do total.");
         }
     }
+
 }

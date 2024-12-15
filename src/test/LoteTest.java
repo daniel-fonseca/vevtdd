@@ -1,72 +1,69 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import model.Ingresso;
 import model.Lote;
 import model.TipoIngresso;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 class LoteTest {
 
     @Test
-    void todosIngressosDoLoteDevemSerNaoVendidosAoCriar() {
-        Lote lote = new Lote(1, 0.10);
+    void deveCriarLoteEValidarPercentuaisCorretos() {
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0),
+                new Ingresso(3, TipoIngresso.VIP, 20.0),
+                new Ingresso(4, TipoIngresso.MEIA_ENTRADA, 10.0)
+        );
 
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
+        Lote lote = new Lote(1, 0.10, ingressos);
 
-        assertTrue(lote.getIngressos().values().stream().allMatch(ingresso -> !ingresso.isVendido()));
-    }
-
-    @Test
-    void deveCriarLoteEAdicionarIngressosComPercentuaisCorretos() {
-        Lote lote = new Lote(1, 0.10);
-
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
-        lote.criarIngresso(TipoIngresso.MEIA_ENTRADA, 10.0);
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
-
-        assertEquals(6, lote.getIngressos().size());
+        assertEquals(4, lote.getIngressos().size());
     }
 
     @Test
     void deveFalharQuandoIngressosVIPForemExcessivos() {
-        Lote lote = new Lote(1, 0.10);
-
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0),
+                new Ingresso(3, TipoIngresso.VIP, 20.0),
+                new Ingresso(4, TipoIngresso.VIP, 20.0)
+        );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
+            new Lote(1, 0.10, ingressos);
         });
 
-        assertTrue(exception.getMessage().contains("Ingressos VIP devem ser entre 20% e 30%"));
+        assertTrue(exception.getMessage().contains("Ingressos VIP devem ser entre 20% e 30% do total."));
     }
 
     @Test
     void deveFalharQuandoIngressosMeiaEntradaForemInsuficientes() {
-        Lote lote = new Lote(1, 0.10);
-
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
-        lote.criarIngresso(TipoIngresso.VIP, 20.0);
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
-        lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0),
+                new Ingresso(3, TipoIngresso.NORMAL, 10.0)
+        );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            lote.criarIngresso(TipoIngresso.NORMAL, 10.0);
+            new Lote(1, 0.10, ingressos);
         });
 
-        assertTrue(exception.getMessage().contains("Ingressos MEIA_ENTRADA devem ser 10%"));
+        assertTrue(exception.getMessage().contains("Ingressos MEIA_ENTRADA devem ser exatamente 10% do total."));
     }
 
     @Test
     void deveVenderIngressoDisponivel() {
-        Lote lote = new Lote(1, 0.10);
-        lote.criarIngresso(TipoIngresso.NORMAL, 100.0);
-        lote.criarIngresso(TipoIngresso.VIP, 200.0);
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(2, TipoIngresso.VIP, 200.0)
+        );
+
+        Lote lote = new Lote(1, 0.10, ingressos);
 
         double precoVendido = lote.venderIngresso();
 
@@ -76,9 +73,11 @@ class LoteTest {
 
     @Test
     void deveLancarExcecaoQuandoNaoHouverIngressosDisponiveis() {
-        Lote lote = new Lote(1, 0.10);
+        List<Ingresso> ingressos = Arrays.asList();
+
+        Lote lote = new Lote(1, 0.10, ingressos);
 
         Exception exception = assertThrows(IllegalStateException.class, lote::venderIngresso);
-        assertTrue(exception.getMessage().contains("Não há ingressos disponíveis"));
+        assertTrue(exception.getMessage().contains("Não há ingressos disponíveis para venda."));
     }
 }
