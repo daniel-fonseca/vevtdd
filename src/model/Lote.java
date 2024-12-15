@@ -19,11 +19,12 @@ public class Lote {
     }
 
     public Ingresso criarIngresso(TipoIngresso tipo, double preco) {
-        validarPercentuais(tipo);
-
         int novoId = ingressos.size() + 1;
         Ingresso ingresso = new Ingresso(novoId, tipo, preco);
         ingressos.put(novoId, ingresso);
+
+        validarPercentuais(tipo);
+
         return ingresso;
     }
 
@@ -56,7 +57,7 @@ public class Lote {
     }
 
     private void validarPercentuais(TipoIngresso novoTipo) {
-        long totalIngressos = ingressos.size() + 1;
+        long totalIngressos = ingressos.size();
         long totalVIP = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.VIP).count();
         long totalMeiaEntrada = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.MEIA_ENTRADA).count();
 
