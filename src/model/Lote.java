@@ -27,6 +27,22 @@ public class Lote {
         return ingresso;
     }
 
+    public double venderIngresso() {
+        Ingresso ingressoDisponivel = ingressos.values().stream()
+                .filter(ingresso -> !ingresso.isVendido())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Não há ingressos disponíveis para venda."));
+
+        ingressoDisponivel.marcarComoVendido();
+
+        double precoFinal = ingressoDisponivel.getPreco();
+        if (ingressoDisponivel.getTipo() != TipoIngresso.MEIA_ENTRADA) {
+            precoFinal *= (1 - desconto);
+        }
+
+        return precoFinal;
+    }
+
     public int getId() {
         return id;
     }
@@ -58,5 +74,4 @@ public class Lote {
             throw new IllegalArgumentException("Ingressos MEIA_ENTRADA devem ser 10% do total.");
         }
     }
-
 }

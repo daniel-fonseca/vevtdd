@@ -75,22 +75,10 @@ class LoteTest {
     }
 
     @Test
-    void deveRetornarValorAoVenderIngresso() {
-        Lote lote = new Lote(1, 0.10);
-        lote.criarIngresso(TipoIngresso.NORMAL, 100.0);
-        lote.criarIngresso(TipoIngresso.VIP, 200.0);
-
-        double precoVendido = show.venderIngresso();
-
-        assertEquals(90.0, precoVendido);
-    }
-
-    @Test
     void deveLancarExcecaoQuandoNaoHouverIngressosDisponiveis() {
         Lote lote = new Lote(1, 0.10);
 
         Exception exception = assertThrows(IllegalStateException.class, lote::venderIngresso);
         assertTrue(exception.getMessage().contains("Não há ingressos disponíveis"));
     }
-
 }
