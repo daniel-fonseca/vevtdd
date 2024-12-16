@@ -26,7 +26,11 @@ public class Ingresso {
     }
 
     public double getPreco() {
-        return preco;
+        if (this.tipo.equals(TipoIngresso.MEIA_ENTRADA)) {
+            return preco * 0.5;
+        } else {
+            return preco;
+        }
     }
 
     public void marcarComoVendido() {

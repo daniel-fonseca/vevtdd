@@ -26,21 +26,27 @@ public class Lote {
         validarPercentuais();
     }
 
-    public double venderIngresso() {
-        Ingresso ingressoDisponivel = ingressos.values().stream()
-                .filter(ingresso -> !ingresso.isVendido())
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Não há ingressos disponíveis para venda."));
+    public double venderIngresso(int id) {
+        Ingresso ingresso = ingressos.get(id);
 
-        ingressoDisponivel.marcarComoVendido();
+        if (ingresso == null) {
+            throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado no lote.", id));
+        }
 
-        double precoFinal = ingressoDisponivel.getPreco();
-        if (ingressoDisponivel.getTipo() != TipoIngresso.MEIA_ENTRADA) {
+        if (ingresso.isVendido()) {
+            throw new IllegalStateException(String.format("Ingresso com ID %d já foi vendido.", id));
+        }
+
+        ingresso.marcarComoVendido();
+
+        double precoFinal = ingresso.getPreco();
+        if (ingresso.getTipo() != TipoIngresso.MEIA_ENTRADA) {
             precoFinal *= (1 - desconto);
         }
 
         return precoFinal;
     }
+
 
     public int getId() {
         return id;

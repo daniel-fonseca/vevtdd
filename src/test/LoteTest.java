@@ -99,7 +99,7 @@ class LoteTest {
 
     @Test
     void deveLancarExcecaoParaIngressoJaVendido() {
-        Lote lote = ShowTestHelper.criarLoteComIngressosVendidos();
+        Lote lote = ShowTestHelper.criarLoteEVenderIngressos();
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
             lote.venderIngresso(1);
