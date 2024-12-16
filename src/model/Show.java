@@ -81,10 +81,15 @@ public class Show {
         return lotes;
     }
 
-    public StatusFinanceiro avaliarStatusFinanceiro() {
+    public StatusFinanceiro getStatusFinanceiro() {
         double receitaLiquida = calcularReceitaLiquida();
         if (receitaLiquida > 0) return StatusFinanceiro.LUCRO;
         if (receitaLiquida == 0) return StatusFinanceiro.ESTÁVEL;
         return StatusFinanceiro.PREJUÍZO;
     }
+
+    public double getBilheteria() {
+        return bilheteria;
+    }
+
 }

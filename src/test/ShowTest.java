@@ -46,7 +46,7 @@ class ShowTest {
     }
 
     @Test
-    void deveAvaliarStatusFinanceiroComLucro() {
+    void deveGetStatusFinanceiroComLucro() {
         Lote lote = ShowTestHelper.criarLoteEVenderIngressos();
 
         Show show = new Show(
@@ -58,11 +58,11 @@ class ShowTest {
                 List.of(lote)
         );
 
-        assertEquals(StatusFinanceiro.LUCRO, show.avaliarStatusFinanceiro());
+        assertEquals(StatusFinanceiro.LUCRO, show.getStatusFinanceiro());
     }
 
     @Test
-    void deveAvaliarStatusFinanceiroEstavel() {
+    void deveGetStatusFinanceiroEstavel() {
         Lote lote = ShowTestHelper.criarLoteEVenderIngressos();
 
         Show show = new Show(
@@ -74,11 +74,11 @@ class ShowTest {
                 List.of(lote)
         );
 
-        assertEquals(StatusFinanceiro.ESTÁVEL, show.avaliarStatusFinanceiro());
+        assertEquals(StatusFinanceiro.ESTÁVEL, show.getStatusFinanceiro());
     }
 
     @Test
-    void deveAvaliarStatusFinanceiroPrejuizo() {
+    void deveGetStatusFinanceiroPrejuizo() {
         Lote lote = ShowTestHelper.criarLoteEVenderIngressos();
 
         Show show = new Show(
@@ -90,7 +90,7 @@ class ShowTest {
                 List.of(lote)
         );
 
-        assertEquals(StatusFinanceiro.PREJUÍZO, show.avaliarStatusFinanceiro());
+        assertEquals(StatusFinanceiro.PREJUÍZO, show.getStatusFinanceiro());
     }
 
     @Test
