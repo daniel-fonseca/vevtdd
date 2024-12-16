@@ -8,7 +8,6 @@ public class Lote {
     private int id;
     private Map<Integer, Ingresso> ingressos;
     private double desconto;
-    private double arrecadacao;
 
     public Lote(int id, double desconto, List<Ingresso> ingressos) {
         if (desconto < 0 || desconto > 0.25) {
@@ -53,8 +52,8 @@ public class Lote {
         return id;
     }
 
-    public Map<Integer, Ingresso> getIngressos() {
-        return ingressos;
+    public List<Ingresso> getIngressos() {
+        return ingressos.values().stream().toList();
     }
 
     public double getDesconto() {

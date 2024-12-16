@@ -41,7 +41,9 @@ class ShowTest {
                 List.of(lote)
         );
 
-        for (int i = 1; i < show.getLote(0); i++) {}
+        for (int i = 1; i < show.getLote(lote.getId()).getIngressos().size(); i++) {
+            show.venderIngresso(i);
+        }
 
         double receitaEsperada = ((10.0 * 0.85 * 7) + (20.0 * 0.85 * 2) + (10.0 * 0.5));
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
