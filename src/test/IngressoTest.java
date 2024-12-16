@@ -19,5 +19,5 @@ class IngressoTest {
         ingresso.marcarComoVendido();
         assertTrue(ingresso.isVendido());
     }
-    
+
 }

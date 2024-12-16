@@ -118,4 +118,46 @@ class LoteTest {
 
         assertTrue(exception.getMessage().contains("Não há ingressos no lote."));
     }
+
+    @Test
+    void deveValidarPrecosComBaseNoPrimeiroIngressoNormal() {
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(3, TipoIngresso.MEIA_ENTRADA, 5.0),
+                new Ingresso(4, TipoIngresso.VIP, 20.0),
+                new Ingresso(5, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(6, TipoIngresso.VIP, 20.0),
+                new Ingresso(7, TipoIngresso.MEIA_ENTRADA, 5.0),
+                new Ingresso(8, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(9, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(10, TipoIngresso.NORMAL, 10.0)
+        );
+
+        Lote lote = new Lote(1, 0.10, ingressos);
+
+        assertEquals(10, lote.getIngressos().size());
+    }
+
+    @Test
+    void deveLancarExcecaoParaPrecoMeiaEntradaInvalido() {
+        List<Ingresso> ingressos = Arrays.asList(
+                new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(2, TipoIngresso.MEIA_ENTRADA, 6.0),
+                new Ingresso(3, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(4, TipoIngresso.VIP, 20.0),
+                new Ingresso(5, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(6, TipoIngresso.VIP, 20.0),
+                new Ingresso(7, TipoIngresso.MEIA_ENTRADA, 5.0),
+                new Ingresso(8, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(9, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(10, TipoIngresso.NORMAL, 10.0)
+        );
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Lote(1, 0.10, ingressos);
+        });
+
+        assertTrue(exception.getMessage().contains("Preço inválido para ingresso do tipo MEIA_ENTRADA"));
+    }
 }
