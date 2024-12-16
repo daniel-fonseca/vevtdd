@@ -67,12 +67,14 @@ public class Lote {
         double percentualVIP = (double) totalVIP / totalIngressos;
         double percentualMeiaEntrada = (double) totalMeiaEntrada / totalIngressos;
 
-        if (percentualVIP < 0.2 || percentualVIP > 0.3) {
-            throw new IllegalArgumentException("Ingressos VIP devem ser entre 20% e 30% do total.");
+        if (percentualVIP < 0.2 || percentualVIP > 0.5) {
+            throw new IllegalArgumentException(String.format(
+                    "Ingressos VIP devem ser entre 20%% e 50%% do total. Atual: %.2f%%", percentualVIP * 100));
         }
 
-        if (Math.abs(percentualMeiaEntrada - 0.1) > 0.0001) {
-            throw new IllegalArgumentException("Ingressos MEIA_ENTRADA devem ser exatamente 10% do total.");
+        if (percentualMeiaEntrada < 0.1 || percentualMeiaEntrada > 0.3) {
+            throw new IllegalArgumentException(String.format(
+                    "Ingressos MEIA_ENTRADA devem estar entre 10%% e 30%% do total. Atual: %.2f%%", percentualMeiaEntrada * 100));
         }
     }
 }

@@ -16,13 +16,14 @@ class LoteTest {
         List<Ingresso> ingressos = Arrays.asList(
                 new Ingresso(1, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(2, TipoIngresso.VIP, 20.0),
-                new Ingresso(3, TipoIngresso.VIP, 20.0),
-                new Ingresso(4, TipoIngresso.MEIA_ENTRADA, 10.0)
+                new Ingresso(3, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(4, TipoIngresso.VIP, 20.0),
+                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 10.0)
         );
 
         Lote lote = new Lote(1, 0.10, ingressos);
 
-        assertEquals(4, lote.getIngressos().size());
+        assertEquals(5, lote.getIngressos().size());
     }
 
     @Test
