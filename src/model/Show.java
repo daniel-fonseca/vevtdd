@@ -37,20 +37,21 @@ public class Show {
         return dataEspecial ? despesasInfraestrutura * 1.15 : despesasInfraestrutura;
     }
 
-    public void venderIngresso(TipoIngresso tipo) {
+    public void venderIngresso(int id) {
         double valor = 0.0;
 
-        for (Lote l : lotes) {
-            try {
-                valor = l.venderIngresso();
-            } catch (IllegalStateException e) {}
+        for (Lote lote : lotes) {
+            if (lote.getIngressos().containsKey(id)) {
+                valor = lote.venderIngresso(id);
+                break;
+            }
         }
 
         if (valor == 0.0) {
-            throw new IllegalStateException("Não há ingressos disponíveis para venda.");
-        } else {
-            bilheteria += valor;
+            throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado em nenhum lote.", id));
         }
+
+        bilheteria += valor;
     }
 
     public double calcularReceitaLiquida() {

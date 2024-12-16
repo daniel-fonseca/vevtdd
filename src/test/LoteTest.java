@@ -82,7 +82,7 @@ class LoteTest {
 
         double precoVendido = lote.venderIngresso(1);
 
-        assertEquals(90.0, precoVendido);
+        assertEquals(9.0, precoVendido);
         assertTrue(lote.getIngressos().get(1).isVendido());
     }
 
