@@ -21,6 +21,10 @@ public class Show {
         this.dataEspecial = dataEspecial;
         this.lotes = new HashMap<Integer, Lote>();
         this.bilheteria = 0.0;
+
+        for (Lote lote : lotes) {
+            this.lotes.put(lote.getId(), lote);
+        }
     }
 
     public String getData() {
@@ -43,7 +47,7 @@ public class Show {
         double valor = 0.0;
 
         for (Lote lote : lotes.values()) {
-            if (lote.getIngressos().containsKey(id)) {
+            if (lote.getIngressosMap().containsKey(id)) {
                 valor = lote.venderIngresso(id);
                 break;
             }
@@ -58,7 +62,7 @@ public class Show {
 
     public double calcularReceitaLiquida() {
         double receitaTotal = lotes.values().stream()
-                .mapToDouble(lote -> lote.getIngressos().values().stream()
+                .mapToDouble(lote -> lote.getIngressosMap().values().stream()
                         .filter(Ingresso::isVendido)
                         .mapToDouble(ingresso -> {
                             double precoFinal = ingresso.getPreco();

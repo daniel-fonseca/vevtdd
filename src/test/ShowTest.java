@@ -5,13 +5,16 @@ import model.*;
 import test.helper.ShowTestHelper;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class ShowTest {
 
     @Test
     void deveCriarShowComLotes() {
+        List<Lote> lotes = new ArrayList<>();
         Lote lote = ShowTestHelper.criarLoteValido();
+        lotes.add(lote);
 
         Show show = new Show(
                 "03/10/2024",
@@ -19,7 +22,7 @@ class ShowTest {
                 1000.0,
                 2000.0,
                 true,
-                List.of(lote)
+                lotes
         );
 
         assertEquals("03/10/2024", show.getData());

@@ -79,4 +79,8 @@ public class Lote {
                     "Ingressos MEIA_ENTRADA devem ser exatamente 10%% do total. Atual: %.2f%%", percentualMEIA * 100));
         }
     }
+
+    public Map<Integer, Ingresso> getIngressosMap() {
+        return this.ingressos;
+    }
 }
