@@ -22,7 +22,7 @@ public class Lote {
         this.desconto = desconto;
         this.ingressos = new HashMap<>();
 
-        ingressos.forEach(ingresso -> this.ingressos.put(ingresso.getId(), ingresso));
+        ingressos.forEach(ingresso -> this.ingressos.put(Integer.valueOf(ingresso.getId()), ingresso));
         validarPercentuais();
     }
 
@@ -55,26 +55,22 @@ public class Lote {
     }
 
     private void validarPercentuais() {
-        long totalIngressos = ingressos.size();
+        int totalVIP = (int) ingressos.values().stream()
+                .filter(i -> i.getTipo() == TipoIngresso.VIP).count();
+        int totalMEIA = (int) ingressos.values().stream()
+                .filter(i -> i.getTipo() == TipoIngresso.MEIA_ENTRADA).count();
+        int total = ingressos.size();
+        double percentualVIP = (double) totalVIP / total;
+        double percentualMEIA = (double) totalMEIA / total;
 
-        if (totalIngressos == 0) {
-            throw new IllegalArgumentException("Não há ingressos no lote.");
+        if (percentualVIP < 0.2 || percentualVIP > 0.3) {
+            throw new IllegalArgumentException(String.format(
+                    "Ingressos VIP devem ser entre 20%% e 30%% do total. Atual: %.2f%%", percentualVIP * 100));
         }
 
-        long totalVIP = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.VIP).count();
-        long totalMeiaEntrada = ingressos.values().stream().filter(i -> i.getTipo() == TipoIngresso.MEIA_ENTRADA).count();
-
-        double percentualVIP = (double) totalVIP / totalIngressos;
-        double percentualMeiaEntrada = (double) totalMeiaEntrada / totalIngressos;
-
-        if (percentualVIP < 0.2 || percentualVIP > 0.5) {
+        if (Math.abs(percentualMEIA - 0.1) > 0.0001) {
             throw new IllegalArgumentException(String.format(
-                    "Ingressos VIP devem ser entre 20%% e 50%% do total. Atual: %.2f%%", percentualVIP * 100));
-        }
-
-        if (percentualMeiaEntrada < 0.1 || percentualMeiaEntrada > 0.3) {
-            throw new IllegalArgumentException(String.format(
-                    "Ingressos MEIA_ENTRADA devem estar entre 10%% e 30%% do total. Atual: %.2f%%", percentualMeiaEntrada * 100));
+                    "Ingressos MEIA_ENTRADA devem ser exatamente 10%% do total. Atual: %.2f%%", percentualMEIA * 100));
         }
     }
 }

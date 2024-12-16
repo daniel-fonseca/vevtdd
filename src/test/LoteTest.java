@@ -15,24 +15,35 @@ class LoteTest {
     void deveCriarLoteEValidarPercentuaisCorretos() {
         List<Ingresso> ingressos = Arrays.asList(
                 new Ingresso(1, TipoIngresso.NORMAL, 10.0),
-                new Ingresso(2, TipoIngresso.VIP, 20.0),
+                new Ingresso(6, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(7, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(8, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(9, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(10, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(3, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0),
                 new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 10.0)
         );
 
         Lote lote = new Lote(1, 0.10, ingressos);
 
-        assertEquals(5, lote.getIngressos().size());
+        assertEquals(10, lote.getIngressos().size());
     }
 
     @Test
     void deveFalharQuandoIngressosVIPForemExcessivos() {
         List<Ingresso> ingressos = Arrays.asList(
                 new Ingresso(1, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(7, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(8, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(9, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(10, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(2, TipoIngresso.VIP, 20.0),
                 new Ingresso(3, TipoIngresso.VIP, 20.0),
-                new Ingresso(4, TipoIngresso.VIP, 20.0)
+                new Ingresso(4, TipoIngresso.VIP, 20.0),
+                new Ingresso(5, TipoIngresso.VIP, 20.0),
+                new Ingresso(6, TipoIngresso.MEIA_ENTRADA, 20.0)
         );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -46,8 +57,15 @@ class LoteTest {
     void deveFalharQuandoIngressosMeiaEntradaForemInsuficientes() {
         List<Ingresso> ingressos = Arrays.asList(
                 new Ingresso(1, TipoIngresso.NORMAL, 10.0),
-                new Ingresso(2, TipoIngresso.VIP, 20.0),
-                new Ingresso(3, TipoIngresso.NORMAL, 10.0)
+                new Ingresso(3, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(4, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(5, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(6, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(7, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(8, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(9, TipoIngresso.NORMAL, 10.0),
+                new Ingresso(10, TipoIngresso.VIP, 10.0),
+                new Ingresso(2, TipoIngresso.VIP, 20.0)
         );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -63,7 +81,13 @@ class LoteTest {
                 new Ingresso(1, TipoIngresso.NORMAL, 100.0),
                 new Ingresso(2, TipoIngresso.VIP, 200.0),
                 new Ingresso(3, TipoIngresso.VIP, 200.0),
-                new Ingresso(4, TipoIngresso.MEIA_ENTRADA, 50.0)
+                new Ingresso(4, TipoIngresso.MEIA_ENTRADA, 50.0),
+                new Ingresso(5, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(6, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(7, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(8, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(9, TipoIngresso.NORMAL, 100.0),
+                new Ingresso(10, TipoIngresso.NORMAL, 100.0)
         );
 
         Lote lote = new Lote(1, 0.10, ingressos);
