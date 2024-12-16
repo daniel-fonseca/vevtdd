@@ -43,40 +43,25 @@ public class Show {
         return dataEspecial ? despesasInfraestrutura * 1.15 : despesasInfraestrutura;
     }
 
-    public void venderIngresso(int id) {
-        double valor = 0.0;
-
-        for (Lote lote : lotes.values()) {
-            if (lote.getIngressosMap().containsKey(id)) {
-                valor = lote.venderIngresso(id);
-                break;
-            }
+    public void venderIngresso(int idLote, int idIngresso) {
+        if (!lotes.containsKey(idLote)) {
+            throw new IllegalArgumentException(String.format("Lote com ID %d não encontrado no show.", idLote));
         }
 
-        if (valor == 0.0) {
-            throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado em nenhum lote.", id));
-        }
+        Lote lote = lotes.get(idLote);
 
-        bilheteria += valor;
+        try {
+            double valorVenda = lote.venderIngresso(idIngresso);
+            this.bilheteria += valorVenda;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado no lote %d.", idIngresso, idLote));
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException(String.format("Ingresso com ID %d no lote %d já foi vendido.", idIngresso, idLote));
+        }
     }
 
     public double calcularReceitaLiquida() {
-        double receitaTotal = lotes.values().stream()
-                .mapToDouble(lote -> lote.getIngressosMap().values().stream()
-                        .filter(Ingresso::isVendido)
-                        .mapToDouble(ingresso -> {
-                            double precoFinal = ingresso.getPreco();
-                            if (ingresso.getTipo() != TipoIngresso.MEIA_ENTRADA) {
-                                precoFinal *= (1 - lote.getDesconto());
-                            }
-                            return precoFinal;
-                        })
-                        .sum())
-                .sum();
-
-        double custosTotais = getCacheArtista() + getDespesasInfraestrutura();
-
-        return receitaTotal - custosTotais;
+        return this.bilheteria - getCacheArtista() - getDespesasInfraestrutura();
     }
 
     public boolean isDataEspecial() {

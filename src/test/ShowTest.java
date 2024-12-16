@@ -12,9 +12,7 @@ class ShowTest {
 
     @Test
     void deveCriarShowComLotes() {
-        List<Lote> lotes = new ArrayList<>();
-        Lote lote = ShowTestHelper.criarLoteValido();
-        lotes.add(lote);
+        List<Lote> lotes = List.of(ShowTestHelper.criarLoteValido());
 
         Show show = new Show(
                 "03/10/2024",
@@ -33,37 +31,66 @@ class ShowTest {
 
     @Test
     void deveCalcularReceitaLiquidaComLucro() {
-        Lote lote = ShowTestHelper.criarLoteValido();
+        List<Ingresso> ingressos = new ArrayList<>();
+        for (int i = 1; i <= 500; i++) {
+            if (i <= 100) {
+                ingressos.add(new Ingresso(i, TipoIngresso.VIP, 10.0));
+            } else if (i <= 150) {
+                ingressos.add(new Ingresso(i, TipoIngresso.MEIA_ENTRADA, 10.0));
+            } else {
+                ingressos.add(new Ingresso(i, TipoIngresso.NORMAL, 10.0));
+            }
+        }
+
+        Lote lote = new Lote(1, 0.15, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
-                100.0,
-                200.0,
-                false,
+                1000.0,
+                2000.0,
+                true,
                 List.of(lote)
         );
 
-        for (int i = 1; i < show.getLote(lote.getId()).getIngressos().size(); i++) {
-            show.venderIngresso(i);
+        for (Ingresso ingresso : lote.getIngressos()) {
+            show.venderIngresso(1, ingresso.getId());
         }
 
-        double receitaEsperada = ((10.0 * 0.85 * 7) + (20.0 * 0.85 * 2) + (10.0 * 0.5));
-        assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
+        double bilheteriaEsperada = (10.0 * 0.85 * 350) + (20.0 * 0.85 * 100) + (10.0 * 0.5 * 50);
+        double custosTotais = 1000.0 + (2000.0 * 1.15);
+        double receitaLiquidaEsperada = bilheteriaEsperada - custosTotais;
+
+        assertEquals(receitaLiquidaEsperada, show.calcularReceitaLiquida());
     }
 
     @Test
-    void deveGetStatusFinanceiroComLucro() {
-        Lote lote = ShowTestHelper.criarLoteEVenderIngressos();
+    void deveObterStatusFinanceiroComLucro() {
+        List<Ingresso> ingressos = new ArrayList<>();
+        for (int i = 1; i <= 500; i++) {
+            if (i <= 100) {
+                ingressos.add(new Ingresso(i, TipoIngresso.VIP, 10.0));
+            } else if (i <= 150) {
+                ingressos.add(new Ingresso(i, TipoIngresso.MEIA_ENTRADA, 10.0));
+            } else {
+                ingressos.add(new Ingresso(i, TipoIngresso.NORMAL, 10.0));
+            }
+        }
+
+        Lote lote = new Lote(1, 0.15, ingressos);
 
         Show show = new Show(
                 "03/10/2024",
                 "Paul McCartney",
-                100.0,
-                200.0,
-                false,
+                1000.0,
+                2000.0,
+                true,
                 List.of(lote)
         );
+
+        for (Ingresso ingresso : lote.getIngressos()) {
+            show.venderIngresso(1, ingresso.getId());
+        }
 
         assertEquals(StatusFinanceiro.LUCRO, show.getStatusFinanceiro());
     }
@@ -112,14 +139,13 @@ class ShowTest {
         );
 
         double bilheteriaAntes = show.getBilheteria();
-        show.venderIngresso(1);
+        show.venderIngresso(1, 1);
         double precoEsperado = 9.0;
         double bilheteriaDepois = show.getBilheteria();
 
         assertEquals(bilheteriaAntes + precoEsperado, bilheteriaDepois);
-        assertTrue(show.getLotes().get(0).getIngressos().get(1).isVendido());
+        assertTrue(show.getLote(1).getIngressosMap().get(1).isVendido());
     }
-
 
     @Test
     void deveLancarExcecaoParaVendaDeIngressoInexistente() {
@@ -133,10 +159,10 @@ class ShowTest {
         );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            show.venderIngresso(999);
+            show.venderIngresso(1, 999);
         });
 
-        assertTrue(exception.getMessage().contains("Ingresso com ID 999 não encontrado em nenhum lote."));
+        assertTrue(exception.getMessage().contains("Ingresso com ID 999 não encontrado no lote 1."));
     }
 
     @Test
@@ -151,9 +177,9 @@ class ShowTest {
         );
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            show.venderIngresso(1);
+            show.venderIngresso(2, 1);
         });
 
-        assertTrue(exception.getMessage().contains("Ingresso com ID 1 já foi vendido."));
+        assertTrue(exception.getMessage().contains("Ingresso com ID 1 no lote 2 já foi vendido."));
     }
 }
