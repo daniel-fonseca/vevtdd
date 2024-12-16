@@ -9,6 +9,7 @@ public class Show {
     private double despesasInfraestrutura;
     private boolean dataEspecial;
     private List<Lote> lotes;
+    private double bilheteria;
 
     public Show(String data, String artista, double cacheArtista, double despesasInfraestrutura, boolean dataEspecial, List<Lote> lotes) {
         this.data = data;
@@ -17,6 +18,7 @@ public class Show {
         this.despesasInfraestrutura = despesasInfraestrutura;
         this.dataEspecial = dataEspecial;
         this.lotes = lotes;
+        this.bilheteria = 0.0;
     }
 
     public String getData() {
@@ -35,9 +37,25 @@ public class Show {
         return dataEspecial ? despesasInfraestrutura * 1.15 : despesasInfraestrutura;
     }
 
+    public void venderIngresso(TipoIngresso tipo) {
+        double valor = 0.0;
+
+        for (Lote l : lotes) {
+            try {
+                valor = l.venderIngresso();
+            } catch (IllegalStateException e) {}
+        }
+
+        if (valor == 0.0) {
+            throw new IllegalStateException("Não há ingressos disponíveis para venda.");
+        } else {
+            bilheteria += valor;
+        }
+    }
+
     public double calcularReceitaLiquida() {
         double receitaTotal = lotes.stream()
-                .mapToDouble(lote -> lote.getIngressos().values().stream() // Corrigido para acessar os valores do Map
+                .mapToDouble(lote -> lote.getIngressos().values().stream()
                         .filter(Ingresso::isVendido)
                         .mapToDouble(ingresso -> {
                             double precoFinal = ingresso.getPreco();

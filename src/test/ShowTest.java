@@ -41,7 +41,7 @@ class ShowTest {
                 List.of(lote)
         );
 
-        double receitaEsperada = (100.0 * 0.85) + (200.0 * 0.85); // Desconto de 15%
+        double receitaEsperada = (10 * 0.85) + (20 * 0.85);
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
     }
 
