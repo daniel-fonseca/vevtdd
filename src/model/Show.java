@@ -94,4 +94,7 @@ public class Show {
         return bilheteria;
     }
 
+    public Lote getLote(int id) {
+        return lotes.get(id);
+    }
 }
