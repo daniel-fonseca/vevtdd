@@ -24,7 +24,7 @@ class LoteTest {
                 new Ingresso(3, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
                 new Ingresso(2, TipoIngresso.VIP, 20.0),
-                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 10.0)
+                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 5.0)
         );
 
         Lote lote = new Lote(1, 0.10, ingressos);
@@ -44,7 +44,7 @@ class LoteTest {
                 new Ingresso(3, TipoIngresso.VIP, 20.0),
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
                 new Ingresso(5, TipoIngresso.VIP, 20.0),
-                new Ingresso(6, TipoIngresso.MEIA_ENTRADA, 20.0)
+                new Ingresso(6, TipoIngresso.MEIA_ENTRADA, 5.0)
         );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -128,7 +128,7 @@ class LoteTest {
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
                 new Ingresso(5, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(6, TipoIngresso.VIP, 20.0),
-                new Ingresso(7, TipoIngresso.MEIA_ENTRADA, 5.0),
+                new Ingresso(7, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(8, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(9, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(10, TipoIngresso.NORMAL, 10.0)
@@ -148,7 +148,7 @@ class LoteTest {
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
                 new Ingresso(5, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(6, TipoIngresso.VIP, 20.0),
-                new Ingresso(7, TipoIngresso.MEIA_ENTRADA, 5.0),
+                new Ingresso(7, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(8, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(9, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(10, TipoIngresso.NORMAL, 10.0)

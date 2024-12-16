@@ -21,7 +21,7 @@ public class ShowTestHelper {
                 new Ingresso(3, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
                 new Ingresso(2, TipoIngresso.VIP, 20.0),
-                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 10.0)
+                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 5.0)
         );
         return new Lote(1, 0.10, ingressos);
     }
@@ -37,7 +37,7 @@ public class ShowTestHelper {
                 new Ingresso(3, TipoIngresso.NORMAL, 10.0),
                 new Ingresso(4, TipoIngresso.VIP, 20.0),
                 new Ingresso(2, TipoIngresso.VIP, 20.0),
-                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 10.0)
+                new Ingresso(5, TipoIngresso.MEIA_ENTRADA, 5.0)
         );
         ingressos.forEach(Ingresso::marcarComoVendido);
         return new Lote(2, 0.15, ingressos);
