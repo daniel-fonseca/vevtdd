@@ -41,7 +41,7 @@ class ShowTest {
                 List.of(lote)
         );
 
-        double receitaEsperada = (10 * 0.85) + (20 * 0.85);
+        double receitaEsperada = ((10.0 * 0.85 * 7) + (20.0 * 0.85 * 2) + (10.0 * 0.5));
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());
     }
 
@@ -91,5 +91,62 @@ class ShowTest {
         );
 
         assertEquals(StatusFinanceiro.PREJUÍZO, show.avaliarStatusFinanceiro());
+    }
+
+    @Test
+    void deveVenderIngressoPorId() {
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                1000.0,
+                2000.0,
+                true,
+                List.of(ShowTestHelper.criarLoteValido())
+        );
+
+        double bilheteriaAntes = show.getBilheteria();
+        show.venderIngresso(1);
+        double precoEsperado = 9.0;
+        double bilheteriaDepois = show.getBilheteria();
+
+        assertEquals(bilheteriaAntes + precoEsperado, bilheteriaDepois);
+        assertTrue(show.getLotes().get(0).getIngressos().get(1).isVendido());
+    }
+
+
+    @Test
+    void deveLancarExcecaoParaVendaDeIngressoInexistente() {
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                1000.0,
+                2000.0,
+                true,
+                List.of(ShowTestHelper.criarLoteValido())
+        );
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            show.venderIngresso(999);
+        });
+
+        assertTrue(exception.getMessage().contains("Ingresso com ID 999 não encontrado em nenhum lote."));
+    }
+
+    @Test
+    void deveLancarExcecaoParaVendaDeIngressoJaVendido() {
+        Show show = new Show(
+                "03/10/2024",
+                "Paul McCartney",
+                1000.0,
+                2000.0,
+                true,
+                List.of(ShowTestHelper.criarLoteEVenderIngressos())
+        );
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            show.venderIngresso(1);
+        });
+
+        assertTrue(exception.getMessage().contains("Ingresso com ID 1 já foi vendido."));
     }
 }
