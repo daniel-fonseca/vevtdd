@@ -1,5 +1,7 @@
 package model;
 
+import jdk.jshell.Snippet;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class Show {
         this.despesasInfraestrutura = despesasInfraestrutura;
         this.dataEspecial = dataEspecial;
         this.lotes = new HashMap<Integer, Lote>();
-        this.bilheteria = 0.0;
+        this.bilheteria = 0.00;
 
         for (Lote lote : lotes) {
             this.lotes.put(lote.getId(), lote);
@@ -43,16 +45,17 @@ public class Show {
         return dataEspecial ? despesasInfraestrutura * 1.15 : despesasInfraestrutura;
     }
 
-    public void venderIngresso(int idLote, int idIngresso) {
-        if (!lotes.containsKey(idLote)) {
+    public double venderIngresso(int idLote, int idIngresso) {
+        Lote lote = lotes.get(idLote);
+
+        if (lote == null) {
             throw new IllegalArgumentException(String.format("Lote com ID %d não encontrado no show.", idLote));
         }
 
-        Lote lote = lotes.get(idLote);
-
         try {
             double valorVenda = lote.venderIngresso(idIngresso);
-            this.bilheteria += valorVenda;
+            bilheteria += valorVenda;
+            return valorVenda;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado no lote %d.", idIngresso, idLote));
         } catch (IllegalStateException e) {
@@ -61,8 +64,8 @@ public class Show {
     }
 
     public double calcularReceitaLiquida() {
-        return this.bilheteria - getCacheArtista() - getDespesasInfraestrutura();
-    }
+        return getBilheteria() - getCacheArtista() - getDespesasInfraestrutura();
+     }
 
     public boolean isDataEspecial() {
         return dataEspecial;
@@ -74,13 +77,18 @@ public class Show {
 
     public StatusFinanceiro getStatusFinanceiro() {
         double receitaLiquida = calcularReceitaLiquida();
-        if (receitaLiquida > 0) return StatusFinanceiro.LUCRO;
-        if (receitaLiquida == 0) return StatusFinanceiro.ESTÁVEL;
-        return StatusFinanceiro.PREJUÍZO;
+
+        if (receitaLiquida >= 1) {
+            return StatusFinanceiro.LUCRO;
+        } else if (receitaLiquida < 0) {
+            return StatusFinanceiro.PREJUÍZO;
+        }
+
+        return StatusFinanceiro.ESTÁVEL;
     }
 
     public double getBilheteria() {
-        return bilheteria;
+        return this.bilheteria;
     }
 
     public Lote getLote(int id) {

@@ -10,7 +10,7 @@ public class Lote {
     private double desconto;
 
     public Lote(int id, double desconto, List<Ingresso> ingressos) {
-        if (desconto < 0 || desconto > 0.25) {
+        if (desconto < 0.00 || desconto > 0.25) {
             throw new IllegalArgumentException("Desconto deve estar entre 0% e 25%");
         }
 
@@ -26,27 +26,22 @@ public class Lote {
         validarPercentuais();
     }
 
-    public double venderIngresso(int id) {
-        Ingresso ingresso = ingressos.get(id);
+    public double venderIngresso(int idIngresso) {
+        Ingresso ingresso = ingressos.get(idIngresso);
 
         if (ingresso == null) {
-            throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado no lote.", id));
+            throw new IllegalArgumentException(String.format("Ingresso com ID %d não encontrado no lote.", idIngresso));
         }
 
         if (ingresso.isVendido()) {
-            throw new IllegalStateException(String.format("Ingresso com ID %d já foi vendido.", id));
+            throw new IllegalStateException(String.format("Ingresso com ID %d já foi vendido.", idIngresso));
         }
 
         ingresso.marcarComoVendido();
 
-        double precoFinal = ingresso.getPreco();
-        if (ingresso.getTipo() != TipoIngresso.MEIA_ENTRADA) {
-            precoFinal *= (1 - desconto);
-        }
-
+        double precoFinal = ingresso.getPreco() * (1.00 - desconto);
         return precoFinal;
     }
-
 
     public int getId() {
         return id;
@@ -69,7 +64,7 @@ public class Lote {
         double percentualVIP = (double) totalVIP / total;
         double percentualMEIA = (double) totalMEIA / total;
 
-        if (percentualVIP < 0.2 || percentualVIP > 0.3) {
+        if (percentualVIP < 0.20 || percentualVIP > 0.30) {
             throw new IllegalArgumentException(String.format(
                     "Ingressos VIP devem ser entre 20%% e 30%% do total. Atual: %.2f%%", percentualVIP * 100));
         }

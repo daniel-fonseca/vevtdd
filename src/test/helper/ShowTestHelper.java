@@ -4,6 +4,7 @@ import model.Ingresso;
 import model.Lote;
 import model.TipoIngresso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,5 +41,19 @@ public class ShowTestHelper {
         );
         ingressos.forEach(Ingresso::marcarComoVendido);
         return new Lote(2, 0.15, ingressos);
+    }
+
+    public static List<Ingresso> criarIngressosValidos(int totalIngressos) {
+        List<Ingresso> ingressos = new ArrayList<>();
+        for (int i = 1; i <= totalIngressos; i++) {
+            if (i <= totalIngressos * 0.2) {
+                ingressos.add(new Ingresso(i, TipoIngresso.VIP, 20.0));
+            } else if (i <= totalIngressos * 0.3) {
+                ingressos.add(new Ingresso(i, TipoIngresso.MEIA_ENTRADA, 10.0));
+            } else {
+                ingressos.add(new Ingresso(i, TipoIngresso.NORMAL, 10.0));
+            }
+        }
+        return ingressos;
     }
 }
