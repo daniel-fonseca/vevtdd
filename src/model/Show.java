@@ -1,6 +1,8 @@
 package model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Show {
     private String data;
@@ -8,7 +10,7 @@ public class Show {
     private double cacheArtista;
     private double despesasInfraestrutura;
     private boolean dataEspecial;
-    private List<Lote> lotes;
+    private Map<Integer, Lote> lotes;
     private double bilheteria;
 
     public Show(String data, String artista, double cacheArtista, double despesasInfraestrutura, boolean dataEspecial, List<Lote> lotes) {
@@ -17,7 +19,7 @@ public class Show {
         this.cacheArtista = cacheArtista;
         this.despesasInfraestrutura = despesasInfraestrutura;
         this.dataEspecial = dataEspecial;
-        this.lotes = lotes;
+        this.lotes = new HashMap<Integer, Lote>();
         this.bilheteria = 0.0;
     }
 
@@ -40,7 +42,7 @@ public class Show {
     public void venderIngresso(int id) {
         double valor = 0.0;
 
-        for (Lote lote : lotes) {
+        for (Lote lote : lotes.values()) {
             if (lote.getIngressos().containsKey(id)) {
                 valor = lote.venderIngresso(id);
                 break;
@@ -55,7 +57,7 @@ public class Show {
     }
 
     public double calcularReceitaLiquida() {
-        double receitaTotal = lotes.stream()
+        double receitaTotal = lotes.values().stream()
                 .mapToDouble(lote -> lote.getIngressos().values().stream()
                         .filter(Ingresso::isVendido)
                         .mapToDouble(ingresso -> {
@@ -78,7 +80,7 @@ public class Show {
     }
 
     public List<Lote> getLotes() {
-        return lotes;
+        return lotes.values().stream().toList();
     }
 
     public StatusFinanceiro getStatusFinanceiro() {

@@ -30,7 +30,7 @@ class ShowTest {
 
     @Test
     void deveCalcularReceitaLiquidaComLucro() {
-        Lote lote = ShowTestHelper.criarLoteEVenderIngressos();
+        Lote lote = ShowTestHelper.criarLoteValido();
 
         Show show = new Show(
                 "03/10/2024",
@@ -40,6 +40,8 @@ class ShowTest {
                 false,
                 List.of(lote)
         );
+
+        for (int i = 1; i < show.getLote(0); i++) {}
 
         double receitaEsperada = ((10.0 * 0.85 * 7) + (20.0 * 0.85 * 2) + (10.0 * 0.5));
         assertEquals(receitaEsperada - 300.0, show.calcularReceitaLiquida());

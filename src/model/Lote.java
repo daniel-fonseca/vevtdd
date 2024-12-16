@@ -8,6 +8,7 @@ public class Lote {
     private int id;
     private Map<Integer, Ingresso> ingressos;
     private double desconto;
+    private double arrecadacao;
 
     public Lote(int id, double desconto, List<Ingresso> ingressos) {
         if (desconto < 0 || desconto > 0.25) {
