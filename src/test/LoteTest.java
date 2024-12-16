@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import model.Ingresso;
 import model.Lote;
 import model.TipoIngresso;
+import test.helper.ShowTestHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -77,25 +78,34 @@ class LoteTest {
 
     @Test
     void deveVenderIngressoDisponivel() {
-        List<Ingresso> ingressos = Arrays.asList(
-                new Ingresso(1, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(2, TipoIngresso.VIP, 200.0),
-                new Ingresso(3, TipoIngresso.VIP, 200.0),
-                new Ingresso(4, TipoIngresso.MEIA_ENTRADA, 50.0),
-                new Ingresso(5, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(6, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(7, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(8, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(9, TipoIngresso.NORMAL, 100.0),
-                new Ingresso(10, TipoIngresso.NORMAL, 100.0)
-        );
+        Lote lote = ShowTestHelper.criarLoteValido();
 
-        Lote lote = new Lote(1, 0.10, ingressos);
-
-        double precoVendido = lote.venderIngresso();
+        double precoVendido = lote.venderIngresso(1);
 
         assertEquals(90.0, precoVendido);
         assertTrue(lote.getIngressos().get(1).isVendido());
+    }
+
+    @Test
+    void deveLancarExcecaoParaIngressoInexistente() {
+        Lote lote = ShowTestHelper.criarLoteValido();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            lote.venderIngresso(999);
+        });
+
+        assertTrue(exception.getMessage().contains("Ingresso com ID 999 não encontrado no lote."));
+    }
+
+    @Test
+    void deveLancarExcecaoParaIngressoJaVendido() {
+        Lote lote = ShowTestHelper.criarLoteComIngressosVendidos();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            lote.venderIngresso(1);
+        });
+
+        assertTrue(exception.getMessage().contains("Ingresso com ID 1 já foi vendido."));
     }
 
     @Test
