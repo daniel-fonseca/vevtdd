@@ -1,0 +1,18 @@
+target/
+target/*
+/target/**
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea/
+.idea/*                  # Ignore entire .idea folder
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iml
+*.ipr
+*.iws
+!*.gitignore            # Exclude .gitignore file if needed
