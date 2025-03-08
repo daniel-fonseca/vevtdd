@@ -37,6 +37,20 @@ class ShowTest {
     }
 
     @Test
+    @DisplayName("Deve calcular receita líquida corretamente com lucro")
+    void deveCalcularReceitaLiquidaComLucro() {
+        for (Ingresso ingresso : show.getLotes().get(0).getIngressos()) {
+            show.venderIngresso(1, ingresso.getId());
+        }
+
+        double receitaLiquida = show.calcularReceitaLiquida();
+        System.out.println("Receita líquida final: " + receitaLiquida);
+
+        assertTrue(receitaLiquida > 0, "A receita líquida deveria ser positiva.");
+        assertEquals(StatusFinanceiro.LUCRO, show.getStatusFinanceiro());
+    }
+    
+    @Test
     @DisplayName("Deve lançar exceção para venda de ingresso inexistente")
     void deveLancarExcecaoParaVendaDeIngressoInexistente() {
         assertThrows(IllegalArgumentException.class, () -> show.venderIngresso(1, 9999));
