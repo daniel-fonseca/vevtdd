@@ -49,7 +49,7 @@ class ShowTest {
         assertTrue(receitaLiquida > 0, "A receita líquida deveria ser positiva.");
         assertEquals(StatusFinanceiro.LUCRO, show.getStatusFinanceiro());
     }
-    
+
     @Test
     @DisplayName("Deve lançar exceção para venda de ingresso inexistente")
     void deveLancarExcecaoParaVendaDeIngressoInexistente() {
