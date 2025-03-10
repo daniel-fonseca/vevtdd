@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import model.*;
 import org.junit.jupiter.api.*;
 import test.helper.IngressoFactory;
+
 import java.util.List;
 
 @Tag("unit")
@@ -14,16 +15,10 @@ class ShowTest {
 
     @BeforeEach
     void setup() {
-        List<Ingresso> ingressos = IngressoFactory.criarIngressos(60, 10, 30);
-        for (Ingresso ingresso : ingressos) {
-            if (ingresso.getTipo() == TipoIngresso.NORMAL) ingresso = new Ingresso(ingresso.getId(), ingresso.getTipo(), 30.0);
-            if (ingresso.getTipo() == TipoIngresso.MEIA_ENTRADA) ingresso = new Ingresso(ingresso.getId(), ingresso.getTipo(), 15.0);
-            if (ingresso.getTipo() == TipoIngresso.VIP) ingresso = new Ingresso(ingresso.getId(), ingresso.getTipo(), 60.0);
-        }
+        List<Ingresso> ingressos = IngressoFactory.criarIngressos(70, 10, 20); // 70% NORMAL, 10% MEIA, 20% VIP
         Lote lote = new Lote(1, 0.0, ingressos);
         show = new Show("03/10/2024", "Paul McCartney", 1000.0, 2000.0, true, List.of(lote));
     }
-
 
     @Test
     @DisplayName("Deve criar um show corretamente")
@@ -39,6 +34,7 @@ class ShowTest {
     @Test
     @DisplayName("Deve calcular receita líquida corretamente com lucro")
     void deveCalcularReceitaLiquidaComLucro() {
+        // Vender todos os ingressos
         for (Ingresso ingresso : show.getLotes().get(0).getIngressos()) {
             show.venderIngresso(1, ingresso.getId());
         }

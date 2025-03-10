@@ -45,18 +45,15 @@ public class ShowTestHelper {
 
     public static List<Ingresso> criarIngressosValidos(int totalIngressos) {
         List<Ingresso> ingressos = new ArrayList<>();
-        ingressos.add(new Ingresso(1, TipoIngresso.NORMAL, 30.0));
-
-        for (int i = 2; i <= totalIngressos; i++) {
+        for (int i = 1; i <= totalIngressos; i++) {
             if (i <= totalIngressos * 0.2) {
-                ingressos.add(new Ingresso(i, TipoIngresso.VIP, 60.0)); // 2x NORMAL
+                ingressos.add(new Ingresso(i, TipoIngresso.VIP, 20.0));
             } else if (i <= totalIngressos * 0.3) {
-                ingressos.add(new Ingresso(i, TipoIngresso.MEIA_ENTRADA, 15.0)); // 50% NORMAL
+                ingressos.add(new Ingresso(i, TipoIngresso.MEIA_ENTRADA, 10.0));
             } else {
-                ingressos.add(new Ingresso(i, TipoIngresso.NORMAL, 30.0));
+                ingressos.add(new Ingresso(i, TipoIngresso.NORMAL, 10.0));
             }
         }
         return ingressos;
     }
-
 }
