@@ -1,8 +1,6 @@
 package test.helper;
-
 import model.Ingresso;
 import model.TipoIngresso;
-
 import java.util.ArrayList;
 import java.util.List;
 

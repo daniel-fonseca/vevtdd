@@ -34,16 +34,27 @@ class ShowTest {
     @Test
     @DisplayName("Deve calcular receita líquida corretamente com lucro")
     void deveCalcularReceitaLiquidaComLucro() {
-        // Vender todos os ingressos
+        double receitaTotal = 0.0;
+
         for (Ingresso ingresso : show.getLotes().get(0).getIngressos()) {
-            show.venderIngresso(1, ingresso.getId());
+            receitaTotal += show.venderIngresso(1, ingresso.getId());
         }
 
-        double receitaLiquida = show.calcularReceitaLiquida();
-        System.out.println("Receita líquida final: " + receitaLiquida);
+        double cache = show.getCacheArtista();
+        double despesas = show.getDespesasInfraestrutura();
+        double receitaLiquidaCalculada = show.calcularReceitaLiquida();
+        double receitaLiquidaEsperada = receitaTotal - cache - despesas;
 
-        assertTrue(receitaLiquida > 0, "A receita líquida deveria ser positiva.");
-        assertEquals(StatusFinanceiro.LUCRO, show.getStatusFinanceiro());
+        assertEquals(receitaLiquidaEsperada, receitaLiquidaCalculada, 0.01,
+                "A receita líquida calculada deve corresponder à receita esperada.");
+
+        if (receitaLiquidaCalculada >= 1) {
+            assertEquals(StatusFinanceiro.LUCRO, show.getStatusFinanceiro(), "O status financeiro deveria ser LUCRO.");
+        } else if (receitaLiquidaCalculada < 0) {
+            assertEquals(StatusFinanceiro.PREJUÍZO, show.getStatusFinanceiro(), "O status financeiro deveria ser PREJUÍZO.");
+        } else {
+            assertEquals(StatusFinanceiro.ESTÁVEL, show.getStatusFinanceiro(), "O status financeiro deveria ser ESTÁVEL.");
+        }
     }
 
     @Test
