@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: test.functionalTests.TabelasDecisaoTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! - in test.functionalTests.TabelasDecisaoTest
+deveCobrarPrecoPadraoParaIngressoNormalSemDesconto  Time elapsed: 0.007 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.functionalTests.TabelasDecisaoTest.deveCobrarPrecoPadraoParaIngressoNormalSemDesconto(TabelasDecisaoTest.java:13)
+

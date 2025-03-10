@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+Test set: test.java.tddtests.ShowTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 0.007 s <<< FAILURE! - in test.java.tddtests.ShowTest
+deveCriarShowComLotes  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveCriarShowComLotes(ShowTest.java:15)
+
+deveObterStatusFinanceiroComLucro  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveObterStatusFinanceiroComLucro(ShowTest.java:59)
+
+deveLancarExcecaoParaVendaDeIngressoInexistente  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveLancarExcecaoParaVendaDeIngressoInexistente(ShowTest.java:146)
+
+deveLancarExcecaoParaVendaDeIngressoJaVendido  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveLancarExcecaoParaVendaDeIngressoJaVendido(ShowTest.java:167)
+
+deveGetStatusFinanceiroPrejuizo  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveGetStatusFinanceiroPrejuizo(ShowTest.java:112)
+
+deveCalcularReceitaLiquidaComLucro  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveCalcularReceitaLiquidaComLucro(ShowTest.java:35)
+
+deveGetStatusFinanceiroEstavel  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalArgumentException: Preço inválido para ingresso do tipo VIP com ID 1. Esperado: 40,00, Encontrado: 20,00
+	at test.java.tddtests.ShowTest.deveGetStatusFinanceiroEstavel(ShowTest.java:80)
+
